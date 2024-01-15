@@ -7,6 +7,6 @@ export class BillingController {
 
   @Get()
   getHello(): string {
-    return this.billingService.getHello();
+    return this.billingService.createAccount();
   }
 }

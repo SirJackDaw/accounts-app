@@ -2,7 +2,21 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class BillingService {
-  getHello(): string {
+  getAccounts() {
+    
+  }
+
+  createAccount(): string {
     return 'Hello World!';
   }
+
+  withdrawAccount() {
+
+  }
+
+  depositAccount() {
+
+  }
+
+  
 }
