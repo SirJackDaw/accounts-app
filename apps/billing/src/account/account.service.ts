@@ -34,7 +34,7 @@ export class AccountService {
     }
   
     deposit(userId: string, accountId: string, amount: number) {
-  
+        return this.accountRepository.findOneAndUpdate({ id: accountId, userId }, { $inc: { balance: amount }})
     }
     
     transfer(userId: string, accountIdFrom: string, accountIdTo: string, amount: number) {

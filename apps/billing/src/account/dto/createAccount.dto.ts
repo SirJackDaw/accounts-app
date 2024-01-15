@@ -1,4 +1,6 @@
-import { IsString, IsNotEmpty } from "class-validator";
+import { IsString, IsNotEmpty, IsOptional } from "class-validator";
+import { CreateBankCardDto } from "./createCard.dto";
+import { CreateRequisitesDto } from "./createReq.dto";
 
 export class CreateAccountDto {
     userId: string
@@ -6,4 +8,10 @@ export class CreateAccountDto {
     @IsString()
     @IsNotEmpty()
     currency: string;
+
+    @IsOptional()
+    bankCard?: CreateBankCardDto;
+
+    @IsOptional()
+    requsites?: CreateRequisitesDto;
 }
