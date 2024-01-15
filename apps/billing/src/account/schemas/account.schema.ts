@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { AbstractDocument } from "libs/common";
 
-@Schema({ versionKey: false, id: true })
+@Schema({ versionKey: false, timestamps: true })
 export class Account extends AbstractDocument {
     @Prop({ type: String, required: true })
     userId: string;
@@ -11,12 +11,6 @@ export class Account extends AbstractDocument {
 
     @Prop({ type: Number, default: 0 })
     balance: number;
-
-    @Prop({ type: Date, default: Date.now })
-    createdAt: Date;
-
-    @Prop({ type: Date, default: Date.now })
-    updatedAt: Date;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account)
