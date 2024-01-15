@@ -1,22 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { AccountService } from './account/account.service';
+import { CreateAccountDto } from './account/dto/createAccount.dto';
+import { Account } from './account/schemas/account.schema';
 
 @Injectable()
 export class BillingService {
-  getAccounts() {
-    
+  protected readonly logger = new Logger(BillingService.name)
+  constructor(private readonly accountService: AccountService) {}
+
+  getAccounts(userId: string) {
+    return this.accountService.getAccounts(userId)
   }
 
-  createAccount(): string {
-    return 'Hello World!';
+  createAccount(dto: CreateAccountDto): Promise<Account> {
+    return this.accountService.create(dto);
   }
 
-  withdrawAccount() {
-
+  withdrawAccount(userId: string, accountId: string, amount: number) {
+    return this.accountService.withdraw(userId, accountId, amount);
   }
 
-  depositAccount() {
+  chargeAccount(accountId: string, paymentMethod: string, amount: number) {
 
   }
-
-  
 }

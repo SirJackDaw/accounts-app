@@ -4,9 +4,9 @@ import { KafkaService } from 'libs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
-  // const transoprtService = app.get<KafkaService>(KafkaService)
-  // app.connectMicroservice(transoprtService.getOption('auth'))
-  // await app.startAllMicroservices();
+  const transoprtService = app.get<KafkaService>(KafkaService)
+  app.connectMicroservice(transoprtService.getOption('AUTH'))
+  await app.startAllMicroservices();
   await app.listen(3000);
 }
 bootstrap();

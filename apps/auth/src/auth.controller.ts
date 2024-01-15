@@ -28,9 +28,9 @@ export class AuthController {
     return this.authService.refreshToken(token.token)
   }
 
-  // @UseGuards(RpcAuthGuard)
-  // @MessagePattern('validate_user')
-  // validateUser(@CurrentUser() user: User): User {
-  //   return user;
-  // }
+  @UseGuards(RpcAuthGuard)
+  @MessagePattern('validate_user')
+  validateUser(@CurrentUser() user: User): User {
+    return user;
+  }
 }

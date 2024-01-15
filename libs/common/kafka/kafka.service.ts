@@ -4,18 +4,17 @@ import { KafkaOptions, Transport } from '@nestjs/microservices';
 
 @Injectable()
 export class KafkaService {
-    constructor(private readonly configServcie: ConfigService) {}
+    constructor(private readonly configService: ConfigService) {}
 
-  getOption(queue: string, noAck = false): KafkaOptions {
+  getOption(queue: string): KafkaOptions {
     return {
         transport: Transport.KAFKA,
         options: {
             client: {
-                // clientId: this.configServcie.get<string>('KAFKA_CLIENT_ID'),
-                brokers: [this.configServcie.get<string>('KAFKA_URI')]
+                brokers: [this.configService.get<string>('KAFKA_URI')]
             },
             consumer: {
-              groupId: queue,
+              groupId: this.configService.get<string>(`KAFKA_${queue}_CLIENT_ID`) + '-consumer',
             }
         }
     }

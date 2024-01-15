@@ -33,7 +33,7 @@ export class AccountService {
         })
     }
   
-    deposit(userId: string, accountId: string, amount: number) {
+    charge(userId: string, accountId: string, amount: number) {
         return this.accountRepository.findOneAndUpdate({ id: accountId, userId }, { $inc: { balance: amount }})
     }
     

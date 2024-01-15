@@ -20,11 +20,11 @@ export class KafkaModule {
               transport: Transport.KAFKA,
               options: {
                 client: {
-                  clientId: configService.get<string>('KAFKA_CLIENT_ID'),
+                  clientId: configService.get<string>(`KAFKA_${name}_CLIENT_ID`),
                   brokers: [configService.get<string>('KAFKA_URI')]
                 },
                 consumer: {
-                  groupId: configService.get<string>('KAFKA_CONSUMER_GROUP_ID'),
+                  groupId: configService.get<string>(`KAFKA_${name}_CLIENT_ID`) + '-consumer',
                 }
               }
             }),
