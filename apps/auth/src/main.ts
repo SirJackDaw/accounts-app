@@ -1,12 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AuthModule } from './auth.module';
-import { RmqService } from 'libs/common';
+import { KafkaService } from 'libs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
-  const rmqService = app.get<RmqService>(RmqService)
-  app.connectMicroservice(rmqService.getOption('AUTH', true))
-  await app.startAllMicroservices();
+  // const transoprtService = app.get<KafkaService>(KafkaService)
+  // app.connectMicroservice(transoprtService.getOption('auth'))
+  // await app.startAllMicroservices();
   await app.listen(3000);
 }
 bootstrap();

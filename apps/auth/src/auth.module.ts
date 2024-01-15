@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DatabaseModule, RmqModule } from 'libs/common';
+import { MongoModule, KafkaModule } from 'libs/common';
 import { UsersModule } from './users/users.module';
 import { JwtModule } from '@nestjs/jwt'
 import { AccessTokenStrategy } from './strategies/accessToken.strategy';
@@ -20,9 +20,8 @@ import * as redisStore from 'cache-manager-redis-store';
       }),
       inject: [ConfigService]
     }),
-    DatabaseModule,
     UsersModule,
-    RmqModule,
+    // KafkaModule,
     JwtModule.register({})
   ],
   controllers: [AuthController],
