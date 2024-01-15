@@ -1,34 +1,26 @@
-import { Injectable, UnprocessableEntityException, BadRequestException, UnauthorizedException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt'
-import { User } from './user.entity';
-import { EntityManager, FindOneOptions, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/createUser.dto';
 import { LoginDto } from '../dto/login.dto';
+import { UserRepository } from './user.repository';
+import { User } from './user.schema';
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectRepository(User) private readonly usersRepository: Repository<User>, private readonly entityManager: EntityManager) {}
+    constructor(private readonly userRepository: UserRepository) {}
 
     async createUser(dto: CreateUserDto) {
         this.validateRequest(dto)
-        const user = new User({
-            ...dto,
-            password: await bcrypt.hash(dto.password, 10),
-        })
-
-        this.entityManager.save(user)
-
-        return user
+        return this.userRepository.create({...dto, password: await bcrypt.hash(dto.password, 10)})
     }
 
     async getUserById(id: string) {
-        return this.usersRepository.findOne({ where: { id } })
+        return this.userRepository.findOne({ where: { id } })
     }
 
-    async validateUser(dto: LoginDto) {
+    async validateUser(dto: LoginDto): Promise<User> {
         const { email, password } = dto
-        const user = await this.usersRepository.findOne({ where: { email } })
+        const user = await this.userRepository.findOne({ email })
         if (!user) throw new BadRequestException('User not found')
 
         const passwordIsValid = await bcrypt.compare(password, user.password);
@@ -41,7 +33,7 @@ export class UsersService {
 
     private async validateRequest(dto: CreateUserDto) {
         const { email } = dto
-        const userExists = await this.usersRepository.exist({ where: { email } })
-        if (userExists) throw new BadRequestException('Email already exists')
+        const user = await this.userRepository.findOne({ email })
+        if (user) throw new BadRequestException('Email already exists')
     }
 }

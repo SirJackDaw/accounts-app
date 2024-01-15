@@ -18,7 +18,7 @@ export class AuthService {
 
   async login(dto: LoginDto): Promise<{ accessToken: string, refreshToken: string }> {
     const user = await this.userService.validateUser(dto)
-    const tokens = this.getTokens({ id: user.id, username: user.name, email: user.email })
+    const tokens = this.getTokens({ id: user._id.toString(), username: user.name, email: user.email })
     return tokens
   }
 
