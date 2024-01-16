@@ -1,4 +1,23 @@
 services:
+  redis:
+    image: redis:latest
+    env_file:
+      - ./apps/auth/.env
+    ports:
+      - 6379:6379
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - 'mongodb_master_data:/bitnami/mongodb'
+    ports:
+      - 27017:27017
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - 5672:5672
+
   auth:
     build:
       context: .
@@ -8,7 +27,8 @@ services:
     env_file:
       - ./apps/auth/.env
     depends_on:
-      - mongodb
+      - rabbitmq
+      - mongo
       - redis
     volumes:
       - .:/usr/src/app
@@ -25,26 +45,13 @@ services:
     env_file:
       - ./apps/billing/.env
     depends_on:
-      - mongodb
+      - rabbitmq
+      - mongo
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - '3001:3000'
-
-  redis:
-    image: redis:latest
-    env_file:
-      - ./apps/auth/.env
-    ports:
-      - 6379:6379
-
-  mongodb:
-    image: mongo:latest
-    volumes:
-      - 'mongodb_master_data:/bitnami/mongodb'
-    ports:
-      - 27017:27017
 
 volumes:
   mongodb_master_data:

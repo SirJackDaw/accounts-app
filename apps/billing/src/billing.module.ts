@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
 import { BillingController } from './billing.controller';
 import { BillingService } from './billing.service';
-import { KafkaModule, MongoModule } from 'libs/common';
+import { KafkaModule, MongoModule, RmqModule } from 'libs/common';
 import { BillModule } from './bill/bill.module';
 import { AccountModule } from './account/account.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { Kafka } from 'kafkajs';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -14,8 +12,8 @@ import { Kafka } from 'kafkajs';
     MongoModule,
     AccountModule,
     BillModule,
-    KafkaModule,
-    KafkaModule.register('AUTH_SERVICE'),
+    RmqModule.register('AUTH'),
+    RmqModule,
   ],
   controllers: [BillingController],
   providers: [BillingService],
