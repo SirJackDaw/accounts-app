@@ -53,6 +53,21 @@ services:
     ports:
       - '3001:3000'
 
+  accounting:
+    build:
+      context: .
+      dockerfile: ./apps/accounting_proxy/Dockerfile
+      target: development
+    command: npm run start:dev accounting_proxy
+    env_file:
+      - ./apps/accounting_proxy/.env
+    depends_on:
+      - rabbitmq
+      - mongo
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
 volumes:
   mongodb_master_data:
     driver: local

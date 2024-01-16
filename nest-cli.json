@@ -28,6 +28,15 @@
         "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     },
+    "accounting_proxy": {
+      "type": "application",
+      "root": "apps/accounting_proxy",
+      "entryFile": "main",
+      "sourceRoot": "apps/accounting_proxy/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/accounting_proxy/tsconfig.app.json"
+      }
+    },
     "common": {
       "type": "library",
       "root": "libs/common",
