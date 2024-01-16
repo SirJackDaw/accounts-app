@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { BillingController } from './billing.controller';
+import { BillingHttpController } from './controllers/billingHttp.controller';
 import { BillingService } from './billing.service';
-import { KafkaModule, MongoModule, RmqModule } from 'libs/common';
+import { MongoModule, RmqModule } from 'libs/common';
 import { BillModule } from './bill/bill.module';
 import { AccountModule } from './account/account.module';
 import { ConfigModule } from '@nestjs/config';
+import { BillingWsController } from './controllers/billingWs.controller';
+import { PaymentModule } from './payments/payment.module';
 
 @Module({
   imports: [
@@ -14,8 +16,9 @@ import { ConfigModule } from '@nestjs/config';
     BillModule,
     RmqModule.register('AUTH'),
     RmqModule,
+    PaymentModule
   ],
-  controllers: [BillingController],
+  controllers: [BillingHttpController, BillingWsController],
   providers: [BillingService],
 })
 export class BillingModule {}
