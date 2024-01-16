@@ -14,6 +14,9 @@ export class Account extends AbstractDocument {
     @Prop({ type: Number, default: 0 })
     balance: number;
 
+    @Prop({ type: Boolean, required: false, default: true })
+    default?: Boolean;
+
     @Prop({ type: Requisites, required: false })
     requisites?: Requisites;
 

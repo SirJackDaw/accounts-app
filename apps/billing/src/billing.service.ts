@@ -1,12 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { AccountService } from './account/account.service';
-import { CreateAccountDto } from './account/dto/createAccount.dto';
 import { Account } from './account/schemas/account.schema';
+import { CreateAccountDto } from 'libs/common';
+import { PaymentService } from './payments/payment.service';
 
 @Injectable()
 export class BillingService {
   protected readonly logger = new Logger(BillingService.name)
-  constructor(private readonly accountService: AccountService) {}
+  constructor(private readonly accountService: AccountService, private readonly paymentService: PaymentService) {}
 
   getAccounts(userId: string) {
     return this.accountService.getAccounts(userId)
@@ -20,7 +21,10 @@ export class BillingService {
     return this.accountService.withdraw(userId, accountId, amount);
   }
 
-  chargeAccount(accountId: string, paymentMethod: string, amount: number) {
+  async chargeAccount(accountId: string, paymentMethod: string, amount: number) {
+    const account = await this.accountService.getAccount(accountId)
+    if (!account) return
 
+    return this.paymentService.createPayment(paymentMethod, amount, account)
   }
 }

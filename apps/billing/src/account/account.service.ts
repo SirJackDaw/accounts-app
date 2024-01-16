@@ -1,6 +1,7 @@
+import { AccessTokenGuard } from './../../../auth/src/guards/accessToken.guard';
 import { Injectable, Logger } from '@nestjs/common';
 import { AccountRepository } from './account.repository';
-import { CreateAccountDto } from './dto/createAccount.dto';
+import { CreateAccountDto } from 'libs/common';
 
 @Injectable()
 export class AccountService {
@@ -12,6 +13,10 @@ export class AccountService {
             ...dto, 
             balance: 0,
         })
+    }
+
+    getAccount(accountId: string) {
+        return this.accountRepository.findOne({ _id: accountId })
     }
 
     getAccounts(userId: string) {
@@ -37,7 +42,7 @@ export class AccountService {
         return this.accountRepository.findOneAndUpdate({ id: accountId, userId }, { $inc: { balance: amount }})
     }
     
-    transfer(userId: string, accountIdFrom: string, accountIdTo: string, amount: number) {
+    // transfer(userId: string, accountIdFrom: string, accountIdTo: string, amount: number) {
         
-    }
+    // }
 }
