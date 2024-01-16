@@ -41,8 +41,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return this.model.findOneAndUpdate(filterQuery, document, { lean: true, upsert: true, new: true });
   }
 
-  async find(filterQuery: FilterQuery<TDocument>) {
-    return this.model.find(filterQuery, {}, { lean: true });
+  async find(filterQuery: FilterQuery<TDocument>): Promise<TDocument[]> {
+    return this.model.find(filterQuery);
   }
 
   async startTransaction() {
