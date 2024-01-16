@@ -1,8 +1,9 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { BillService } from './bill.service';
-import { CreateBillDto } from './dto/createBill.dto';
 import { Bill } from './schemas/bill.schema';
+import { CreateBillDto } from 'libs/common';
+
 
 @Controller()
 export class BillController {

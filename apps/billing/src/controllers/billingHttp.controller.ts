@@ -26,25 +26,20 @@ export class BillingHttpController {
   }
 
   @UseGuards(AuthGuard)
-  @Get()
+  @Get('account/:id/charge-by-card')
+  chargeAccountByCard(@Param('id') accountId: string, @CurrentUser() user: JwtPayload) {
+    return this.billingService.chargeAccount(user.id, accountId, 'creditCard', 104);
+  }
+  
+  @UseGuards(AuthGuard)
+  @Get('account/:id/charge-by-card')
+  chargeAccountByReqs(@Param('id') accountId: string, @CurrentUser() user: JwtPayload) {
+    return this.billingService.chargeAccount(user.id, accountId, 'requisites', 104);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('account/:id/withdraw')
   withdrawAccount(@Param('id') accountId: string, @CurrentUser() user: JwtPayload) {
     return this.billingService.withdrawAccount(user.id, accountId, 0);
-  }
-
-  @EventPattern('create_account')
-  createAccountMs(data: CreateAccountDto) {
-    console.log(data)
-    if (!data.userId) console.log('no user')
-    return this.billingService.createAccount(data);
-  }
-
-  @EventPattern('charge_account')
-  chargeAccountMs() {
-    return this.billingService.withdrawAccount('', '', 0);
-  }
-
-  @EventPattern('withdraw_account')
-  withdrawAccountMs() {
-    return this.billingService.withdrawAccount('', '', 0);
   }
 }

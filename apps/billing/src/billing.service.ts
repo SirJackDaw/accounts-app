@@ -21,8 +21,8 @@ export class BillingService {
     return this.accountService.withdraw(userId, accountId, amount);
   }
 
-  async chargeAccount(accountId: string, paymentMethod: string, amount: number) {
-    const account = await this.accountService.getAccount(accountId)
+  async chargeAccount(userId: string, accountId: string, paymentMethod: string, amount: number) {
+    const account = await this.accountService.getAccount(accountId, userId)
     if (!account) return
 
     return this.paymentService.createPayment(paymentMethod, amount, account)

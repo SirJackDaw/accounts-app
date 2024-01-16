@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BillRepository } from './bill.repository';
 import { Bill } from './schemas/bill.schema';
-import { CreateBillDto } from './dto/createBill.dto';
+import { CreateBillDto } from 'libs/common';
 
 @Injectable()
 export class BillService {
@@ -10,7 +10,7 @@ export class BillService {
     create(bill: CreateBillDto) {
         return this.billRepository.create({
             ...bill,
-            status: 'open',//TODO: enum, status priority
+            status: 'open',
         })
     }
 

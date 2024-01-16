@@ -1,8 +1,6 @@
-import { AccessTokenGuard } from './../../../auth/src/guards/accessToken.guard';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { ClientProxy } from '@nestjs/microservices';
-import { Observable, tap } from 'rxjs';
 import { BillService } from '../bill/bill.service';
 import { AccountingEntryService } from '../accountingEntry/accountingEntry.service';
 import { Bill } from '../bill/schemas/bill.schema';

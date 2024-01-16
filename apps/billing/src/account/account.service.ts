@@ -15,8 +15,8 @@ export class AccountService {
         })
     }
 
-    getAccount(accountId: string) {
-        return this.accountRepository.findOne({ _id: accountId })
+    getAccount(accountId: string, userId: string) {
+        return this.accountRepository.findOne({ _id: accountId, userId: userId })
     }
 
     getAccounts(userId: string) {
