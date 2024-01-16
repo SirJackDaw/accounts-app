@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AccountingProxyService } from './accounting_proxy.service';
 import { ConfigModule } from '@nestjs/config';
+import { CronModule } from './cron/cron.module';
+import { BillService } from './bill/bill.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: './apps/accounting_proxy/.env' }),
+    CronModule,
   ],
-  providers: [AccountingProxyService],
 })
-export class AccountingProxyModule {}
+export class AppModule {}

@@ -14,8 +14,8 @@ export class BillService {
         })
     }
 
-    getBills(accountId: string, userId: string): Promise<Bill[]> {
-        return this.billRepository.find({ accountId, userId })//TODO: aggregate
+    getOpenedBills(billStatus: string): Promise<Bill[]> {
+        return this.billRepository.find({ status: billStatus })
     }
 
     updateStatus(id: string, status: string) {

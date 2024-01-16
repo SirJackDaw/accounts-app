@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AccountingProxyModule } from './../src/accounting_proxy.module';
+import { AppModule } from '../src/app.module';
 
 describe('AccountingProxyController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AccountingProxyModule],
+      imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
