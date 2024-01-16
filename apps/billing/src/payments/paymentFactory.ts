@@ -7,7 +7,7 @@ import { ClientProxy } from "@nestjs/microservices";
 
 @Injectable()
 export class PaymentFactory {
-    constructor(private readonly httpService: HttpService, @Inject('Req') private readonly reqClient: ClientProxy) {}
+    constructor(private readonly httpService: HttpService, @Inject('REQ') private readonly reqClient: ClientProxy) {}
 
     private methods: Record<string, PaymentStrategy> = {
         creditCard: new CreditCardPayment(this.httpService),

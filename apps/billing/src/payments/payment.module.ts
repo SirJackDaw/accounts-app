@@ -1,4 +1,4 @@
-import { HttpModule, HttpService } from '@nestjs/axios';
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { PaymentFactory } from './paymentFactory';
@@ -9,6 +9,7 @@ import { RmqModule } from 'libs/common';
         HttpModule,
         RmqModule.register('REQ'),
     ],
-    providers: [HttpService, PaymentService, PaymentFactory],
+    providers: [PaymentService, PaymentFactory],
+    exports: [PaymentService]
 })
 export class PaymentModule {}

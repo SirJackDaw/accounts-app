@@ -4,7 +4,7 @@ import { BillingService } from './billing.service';
 import { MongoModule, RmqModule } from 'libs/common';
 import { AccountModule } from './account/account.module';
 import { ConfigModule } from '@nestjs/config';
-import { BillingWsController } from './controllers/billingWs.controller';
+import { BillingMsController } from './controllers/billingMs.controller';
 import { PaymentModule } from './payments/payment.module';
 
 @Module({
@@ -16,7 +16,7 @@ import { PaymentModule } from './payments/payment.module';
     RmqModule,
     PaymentModule
   ],
-  controllers: [BillingHttpController, BillingWsController],
+  controllers: [BillingHttpController, BillingMsController],
   providers: [BillingService],
 })
 export class BillingModule {}
