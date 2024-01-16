@@ -5,16 +5,31 @@ import { ConfigService } from '@nestjs/config';
 import { LoginDto } from './dto/login.dto';
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { Cache } from 'cache-manager';
-import { JwtPayload } from 'libs/common';
+import { CreateAccountDto, JwtPayload } from 'libs/common';
+import { CreateUserDto } from './dto/createUser.dto';
+import { ClientProxy } from '@nestjs/microservices';
+import { tap, timeout } from 'rxjs';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UsersService, 
+    private readonly userService: UsersService,
+    @Inject('BILLING') private readonly billingClient: ClientProxy,
     private readonly jwtService: JwtService, 
     private readonly configService: ConfigService, 
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
+
+  async register(dto: CreateUserDto) {
+    return this.userService.createUser(dto).then(user => { 
+      this.billingClient.emit('create_account', new CreateAccountDto(user._id.toHexString(), 'RUB'))
+      .pipe(
+        timeout(5000),
+        tap(res => console.log(res))
+      );
+      return user
+    })
+  }
 
   async login(dto: LoginDto): Promise<{ accessToken: string, refreshToken: string }> {
     const user = await this.userService.validateUser(dto)

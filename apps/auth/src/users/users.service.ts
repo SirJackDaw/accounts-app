@@ -1,23 +1,17 @@
 import { Injectable, BadRequestException, UnauthorizedException, Inject } from '@nestjs/common';
 import * as bcrypt from 'bcrypt'
-import { CreateUserDto } from './dto/createUser.dto';
+import { CreateUserDto } from '../dto/createUser.dto';
 import { LoginDto } from '../dto/login.dto';
 import { UserRepository } from './user.repository';
 import { User } from './user.schema';
-import { ClientProxy } from '@nestjs/microservices';
-import { CreateAccountDto } from 'libs/common';
 
 @Injectable()
 export class UsersService {
-    constructor(private readonly userRepository: UserRepository, @Inject('BILLING') private readonly billingClient: ClientProxy) {}
+    constructor(private readonly userRepository: UserRepository) {}
 
     async createUser(dto: CreateUserDto) {
         this.validateRequest(dto)
-        return this.userRepository.create({...dto, password: await bcrypt.hash(dto.password, 10)}).then(user => {
-            this.billingClient
-            .emit('create_account', new CreateAccountDto(user._id.toHexString(), 'RUB'))
-            .subscribe()
-        })
+        return this.userRepository.create({...dto, password: await bcrypt.hash(dto.password, 10)})
     }
 
     async getUserById(id: string) {
