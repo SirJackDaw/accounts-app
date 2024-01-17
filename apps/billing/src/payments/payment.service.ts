@@ -12,6 +12,7 @@ export class PaymentService {
 
     async createPayment(paymentMethod: string, amount: number, account: Account) {
         const paymentStrategy = this.paymentFactory.createStrategy(paymentMethod);
+        console.log('factory')
         this.paymentContext.setStrategy(paymentStrategy);
         return this.paymentContext.init(amount, account)
     }

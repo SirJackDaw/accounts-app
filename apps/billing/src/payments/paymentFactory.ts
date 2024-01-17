@@ -4,13 +4,14 @@ import { PaymentStrategy } from "./strategies/payment.strategy";
 import { RequisitesPayment } from "./strategies/req.strategy";
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
+import { AccountService } from "../account/account.service";
 
 @Injectable()
 export class PaymentFactory {
-    constructor(private readonly httpService: HttpService, @Inject('REQ') private readonly reqClient: ClientProxy) {}
+    constructor(private readonly httpService: HttpService, @Inject('REQ') private readonly reqClient: ClientProxy, private readonly accountService: AccountService) {}
 
     private methods: Record<string, PaymentStrategy> = {
-        creditCard: new CreditCardPayment(this.httpService),
+        creditCard: new CreditCardPayment(this.httpService, this.accountService),
         requisites: new RequisitesPayment(this.reqClient)
     }
 

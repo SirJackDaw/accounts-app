@@ -1,8 +1,8 @@
 import { ClientProxy } from "@nestjs/microservices";
-import { PaymentStrategy } from "./payment.strategy";
-import { lastValueFrom } from "rxjs";
 import { CreateBillDto } from "libs/common";
+import { PaymentStrategy } from "./payment.strategy";
 import { Account } from "../../account/schemas/account.schema";
+import { lastValueFrom } from "rxjs";
 
 export class RequisitesPayment implements PaymentStrategy {
     constructor(private readonly reqClient: ClientProxy) {}
@@ -14,7 +14,9 @@ export class RequisitesPayment implements PaymentStrategy {
             amount,
             requisites: account.requisites
         }
-        const bill = await lastValueFrom(this.reqClient.send('create_bill', body))
-        return bill
+        const bill = this.reqClient.send('create_bill', body);
+        const response = await lastValueFrom(bill);
+
+        return response;
     }
 }
