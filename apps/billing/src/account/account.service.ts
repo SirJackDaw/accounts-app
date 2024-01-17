@@ -25,16 +25,16 @@ export class AccountService {
     }
   
     async withdraw(userId: string, accountId: string, amount: number) {
-        const account = await this.accountRepository.findOne({ id: accountId, userId })
+        const account = await this.accountRepository.findOne({ _id: accountId, userId })
 
         if (account.balance < amount) {
-            this.logger.error(`Account ${accountId} has insufficient funds`)
+            this.logger.log(`Account ${accountId} has insufficient funds`)
             return
             //TODO throw error
         }
 
-        return this.accountRepository.findOneAndUpdate({ id: accountId, userId }, { balance: account.balance - amount }).then(account => {
-            this.logger.debug(`Account ${accountId}: withdrew ${amount}`)
+        return this.accountRepository.findOneAndUpdate({ _id: accountId, userId }, { balance: account.balance - amount }).then(account => {
+            this.logger.log(`Account ${accountId}: withdrew ${amount}`)
             return account
         })
     }

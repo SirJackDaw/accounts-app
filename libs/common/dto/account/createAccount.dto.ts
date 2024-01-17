@@ -4,11 +4,11 @@ import { CreateRequisitesDto } from "./createReq.dto";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateAccountDto {
-    constructor(userId: string, currency: string, bankCard?: CreateBankCardDto, requsites?: CreateRequisitesDto) {
+    constructor(userId: string, currency: string, bankCard?: CreateBankCardDto, requisites?: CreateRequisitesDto) {
         this.userId = userId;
         this.currency = currency;
         this.bankCard = bankCard;
-        this.requsites = requsites;
+        this.requisites = requisites;
     }
     
     userId: string
@@ -24,14 +24,14 @@ export class CreateAccountDto {
 
     @IsOptional()
     @ApiProperty({type: CreateRequisitesDto})
-    requsites?: CreateRequisitesDto;
+    requisites?: CreateRequisitesDto;
 
     toString() {
         return JSON.stringify({
             userId: this.userId,
             currency: this.currency,
             bankCard: this.bankCard,
-            requsites: this.requsites
+            requisites: this.requisites
         });
     }
 }
