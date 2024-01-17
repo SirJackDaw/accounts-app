@@ -15,6 +15,9 @@ export class Bill extends AbstractDocument {
 
     @Prop({type: mongoose.Schema.Types.Mixed})
     requiesites?: any;
+
+    @Prop({type: mongoose.Schema.Types.Mixed})
+    endingDocuments?: any;
 }
 
 export const BillSchema = SchemaFactory.createForClass(Bill);

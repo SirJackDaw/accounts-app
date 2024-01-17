@@ -14,11 +14,15 @@ export class BillService {
         })
     }
 
-    getOpenedBills(billStatus: string): Promise<Bill[]> {
-        return this.billRepository.find({ status: billStatus })
+    getNotClosedBills(): Promise<Bill[]> {
+        return this.billRepository.find({ status: {$ne: 'closed'} })
     }
 
-    updateStatus(id: string, status: string) {
-        
+    updateStatus(id, status: string) {
+        return this.billRepository.findOneAndUpdate({ _id: id }, { status })
+    }
+
+    addDocuments(id, documents: any, endingStatus: string) {
+        return this.billRepository.findOneAndUpdate({ _id: id }, { status: endingStatus, endingDocuments: documents })
     }
 }

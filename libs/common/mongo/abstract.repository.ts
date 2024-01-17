@@ -1,5 +1,5 @@
 import { Logger, NotFoundException } from '@nestjs/common';
-import { FilterQuery, Model, UpdateQuery, SaveOptions, Connection } from 'mongoose';
+import mongoose, { FilterQuery, Model, UpdateQuery, SaveOptions, Connection } from 'mongoose';
 import { AbstractDocument } from './abstract.schema';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
@@ -23,6 +23,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   }
 
   async findOneAndUpdate(filterQuery: FilterQuery<TDocument>, update: UpdateQuery<TDocument>) {
+    if (typeof filterQuery._id === 'string') filterQuery._id = new mongoose.Types.ObjectId(filterQuery._id)
     const document = await this.model.findOneAndUpdate(filterQuery, update, { lean: true, new: true });
 
     if (!document) {

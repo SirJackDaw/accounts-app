@@ -2,6 +2,7 @@ import { AccessTokenGuard } from './../../../auth/src/guards/accessToken.guard';
 import { Injectable, Logger } from '@nestjs/common';
 import { AccountRepository } from './account.repository';
 import { CreateAccountDto } from 'libs/common';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class AccountService {
@@ -38,8 +39,8 @@ export class AccountService {
         })
     }
   
-    charge(userId: string, accountId: string, amount: number) {
-        return this.accountRepository.findOneAndUpdate({ id: accountId, userId }, { $inc: { balance: amount }})
+    charge(accountId: string, amount: number) {
+        return this.accountRepository.findOneAndUpdate({ _id: new mongoose.Types.ObjectId(accountId) }, { $inc: { balance: amount }})
     }
     
     // transfer(userId: string, accountIdFrom: string, accountIdTo: string, amount: number) {

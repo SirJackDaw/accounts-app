@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CronModule } from './cron/cron.module';
-import { BillService } from './bill/bill.service';
 
 @Module({
   imports: [
