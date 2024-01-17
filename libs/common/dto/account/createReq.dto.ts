@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsNotEmpty, IsNumber } from "class-validator";
+import { IsString, IsNotEmpty } from "class-validator";
 
 export class CreateRequisitesDto {
     @IsString()
@@ -17,8 +17,8 @@ export class CreateRequisitesDto {
     @ApiProperty()
     bik: string;
 
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
     @ApiProperty()
-    bank: Number;
+    bank: string;
 }
