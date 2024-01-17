@@ -9,7 +9,6 @@ export class AuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     let token: string;
     if (context.getType() === 'http') token = context.switchToHttp().getRequest().get('authorization')
-    // if (context.getType() === 'ws') token = context.switchToWs().getClient().handshake.auth.token
     if (!token) throw new UnauthorizedException();
     return this.authClient.send('validate_user', { Authentication: token.split(' ')[1] })
       .pipe(

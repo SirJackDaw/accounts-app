@@ -11,7 +11,6 @@ export class BillController {
   
   @MessagePattern('create_bill')
   createBill(data: CreateBillDto): Promise<Bill> {
-    console.log(data)
     return this.billService.create(data)
   }
 }

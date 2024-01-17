@@ -13,8 +13,7 @@ export class CreditCardPayment implements PaymentStrategy {
     }
 
     async init(amount: number, account: Account): Promise<any> {
-        const users = await lastValueFrom(this.httpService.get('https://jsonplaceholder.typicode.com/users'));
-        console.log('CreditCardPayment', users)
+        await lastValueFrom(this.httpService.get('https://jsonplaceholder.typicode.com/users'));
         this.accService.charge(account._id.toHexString(), amount)
         return { amount, account };
     }

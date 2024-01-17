@@ -24,7 +24,6 @@ export class BillingService {
   async createCharge(userId: string, accountId: string, paymentMethod: string, amount: number) {
     const account = await this.accountService.getAccount(accountId, userId)
     if (!account) return
-    console.log(account, 'here')
 
     return this.paymentService.createPayment(paymentMethod, amount, account)
   }

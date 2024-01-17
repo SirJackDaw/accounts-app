@@ -8,7 +8,6 @@ export class RequisitesPayment implements PaymentStrategy {
     constructor(private readonly reqClient: ClientProxy) {}
 
     async init(amount: number, account: Account): Promise<any> {
-        console.log('RequisitesPayment')
         const body: CreateBillDto = {
             accountId: account._id.toHexString(),
             amount,

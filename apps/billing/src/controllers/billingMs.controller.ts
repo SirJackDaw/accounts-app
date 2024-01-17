@@ -16,13 +16,11 @@ export class BillingMsController {
 
   @EventPattern('withdraw_account')
   withdrawAccount(data) {
-    console.log(data)
     return this.billingService.withdrawAccount('', '', 0);
   }
 
   @EventPattern('charge_account')
   chargeAccount(data: ChargeReqDto) {
-    console.log(data)
     return this.billingService.chargeAccountDirect(data.accountId, data.amount);
   }
 }
