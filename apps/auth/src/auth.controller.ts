@@ -9,7 +9,7 @@ import { User } from './users/user.schema';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/createUser.dto';
 
-@ApiBearerAuth()
+// @ApiBearerAuth()
 @Controller('v1/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

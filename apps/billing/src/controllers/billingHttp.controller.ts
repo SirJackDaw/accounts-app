@@ -3,12 +3,12 @@ import { BillingService } from '../billing.service';
 import { AuthGuard, CreateAccountDto, CurrentUser, JwtPayload } from 'libs/common';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
 
-@ApiBearerAuth()
+// @ApiBearerAuth()
+  @UseGuards(AuthGuard)
 @Controller('v1/billing')
 export class BillingHttpController {
   constructor(private readonly billingService: BillingService) {}
 
-  @UseGuards(AuthGuard)
   @Get('account/:id/charge')
   @ApiParam({ name: 'id', type: String })
   @ApiQuery({ name: 'method', type: String })
@@ -19,11 +19,9 @@ export class BillingHttpController {
     @Query('amount') amount: number, 
     @CurrentUser() user: JwtPayload,
   ) {
-    console.log('HEY!')
     return this.billingService.createCharge(user.id, accountId, paymentMethod, amount);
   }
 
-  @UseGuards(AuthGuard)
   @Get('account/:id/withdraw')
   @ApiParam({ name: 'id', type: String })
   @ApiQuery({ name: 'amount', type: Number })
@@ -31,19 +29,11 @@ export class BillingHttpController {
     return this.billingService.withdrawAccount(user.id, accountId, amount);
   }
 
-  @UseGuards(AuthGuard)
   @Get('accounts')
   getAccounts(@CurrentUser() user: JwtPayload) {
     return this.billingService.getAccounts(user.id);
   }
 
-  @UseGuards(AuthGuard)
-  @Get('account/:id')
-  getAccount(@Param('id') accountId: string, @CurrentUser() user: JwtPayload) {
-    return this.billingService.getAccounts(user.id);
-  }
-
-  @UseGuards(AuthGuard)
   @Post('account')
   @ApiBody({ type: CreateAccountDto })
   createAccount(@Body() createAccountDto: CreateAccountDto, @CurrentUser() user: JwtPayload) {
