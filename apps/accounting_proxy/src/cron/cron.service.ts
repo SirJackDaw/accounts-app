@@ -10,11 +10,9 @@ import { ChargeReqDto } from 'libs/common/dto/bill/chargeReq.dto';
 export class CronService {
   private readonly logger = new Logger(CronService.name);
 
-  constructor(private readonly billService: BillService, @Inject('BILLING') private billingClient: ClientProxy, private readonly accEntryService: AccountingEntryService){
-    this.logger.log('ready')
-  }
+  constructor(private readonly billService: BillService, @Inject('BILLING') private billingClient: ClientProxy, private readonly accEntryService: AccountingEntryService){}
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron("0 */2 * * * *")
   async askAccounting() {
     this.logger.log('askAccounting')
     const notClosedBills = await this.billService.getNotClosedBills()
