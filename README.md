@@ -1,10 +1,10 @@
 ## 1 Задание
-Примерная оценка работы в сторипоинтах
-1 - 2ч 
-2 - 4ч
-3 - 1д
-5 - 2д
-8 - неделя
+*Примерная оценка работы в сторипоинтах*  
+*1 - 2ч*  
+*2 - 4ч*  
+*3 - 1д*  
+*5 - 2д*  
+*8 - неделя*
 
 ### Проектирование БД и создание диаграммы работы системы - **5**
 ### Бойлерплейт и первичная разметка реализации - **2**
@@ -45,7 +45,7 @@ $ docker-compose up --build -V
     - Логика БД просачивается в слой бизнес-логики, в реальном проекте такое не следует допускать
     - Нет логгирования
     - В сервисе accounting_proxy над логикой работы со статусами можно поразмыслить, возможно, можно реализовать паттерном "Состояние"
-    - В роутах, относящихся к микросервисному взаимодействию, следует вынести в константы имена очередей, там где происходит создание чего-то, нужно реализовать механизм подтверждения выполнения (acknowledgement)
+    - В роутах, относящихся к микросервисному взаимодействию, следует вынести в константы имена очередей. Там где происходит создание чего-то нужно реализовать механизм подтверждения выполнения (acknowledgement)
 
 ---
 
@@ -65,7 +65,7 @@ $ curl --location 'http://localhost:3000/v1/auth/register' \
 
 Ожидаемое поведение: Создался пользователь user, создан счёт в рублях, на счёте 0 рублей
 
-Для дальнейших запросов нужна авторизация
+*Для дальнейших запросов нужна авторизация*
 
 ### Авторизация
 
@@ -77,7 +77,7 @@ $ curl --location 'http://localhost:3000/v1/auth/login' \
     "password": "1234"
 }'
 ```
-Скопировать accessToken и прикреплять к каждому запросу
+*Скопировать accessToken и прикреплять к каждому запросу*
 
 
 ### Создать новый счёт
@@ -85,9 +85,7 @@ $ curl --location 'http://localhost:3000/v1/auth/login' \
 ```bash
 $ curl --location 'http://localhost:3001/v1/billing/account' \
 --header 'Content-Type: application/json' \
-```
-`--header 'Authorization: Bearer` token` \`
-```bash
+--header 'Authorization: Bearer accessToken' \
 --data '{
     "currency": "USD",
     "bankCard": {
@@ -111,7 +109,7 @@ $ curl --location 'http://localhost:3001/v1/billing/account' \
 
 ```bash
 $ curl --location 'http://localhost:3001/v1/billing/accounts' \
---header 'Authorization: Bearer token'
+--header 'Authorization: Bearer accessToken'
 ```
 Ожидаемое поведение: Возвращается массив счетов со всей информацией
 
@@ -119,18 +117,18 @@ $ curl --location 'http://localhost:3001/v1/billing/accounts' \
 
 ```bash
 $ curl --location 'http://localhost:3001/v1/billing/account/accountId/charge?method=requisites&amount=1000' \
---header 'Authorization: Bearer token'
+--header 'Authorization: Bearer accessToken'
 ```
 
 Ожидаемое поведение: в базе данных bills появился чек, в течении 2 минут его статус изменился на closed, появились завершающие документы, к счёту прибавилась сумма.
 
-*Просто, чтобы у бухгалтерии была логика. Если сумма меньше 100, статус не изменится*
+*Логика сервиса бухгалтерии -- если сумма меньше 100, статус не изменится*
 
 ### B2C пополнение
 
 ```bash
 $ curl --location 'http://localhost:3001/v1/billing/account/accountId/charge?method=creditCard&amount=1000' \
---header 'Authorization: Bearer token'
+--header 'Authorization: Bearer accessToken'
 ```
 
 Ожидаемое поведение: аккаунт пополнился мнгновенно, в базе данных bills не появилось чеков
@@ -139,7 +137,7 @@ $ curl --location 'http://localhost:3001/v1/billing/account/accountId/charge?met
 
 ```bash
 $ curl --location 'http://localhost:3001/v1/billing/account/accountId/withdraw?amount=1400' \
---header 'Authorization: token'
+--header 'Authorization: accessToken'
 ```
 
 Ожидаемое поведение: При списании суммы меньше, чем баланс, она списывается. При списании суммы больше баланса ничего не происходит (даже тела ответа не приходит)
