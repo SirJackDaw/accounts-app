@@ -1,8 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { BillingService } from '../billing.service';
-import { CreateAccountDto, RmqService } from 'libs/common';
+import { ChargeReqDto, CreateAccountDto, RmqService } from 'libs/common';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
-import { ChargeReqDto } from 'libs/common/dto/bill/chargeReq.dto';
 
 @Controller()
 export class BillingMsController {

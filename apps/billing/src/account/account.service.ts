@@ -1,4 +1,3 @@
-import { AccessTokenGuard } from './../../../auth/src/guards/accessToken.guard';
 import { Injectable, Logger } from '@nestjs/common';
 import { AccountRepository } from './account.repository';
 import { CreateAccountDto } from 'libs/common';
